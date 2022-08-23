@@ -1,0 +1,36 @@
+name: Build
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend-svelte
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - uses: actions/setup-node@v2
+        id: setup-node
+        with:
+          node-version: "16.14.0"
+      - name: Intializing Theme File
+      	run: npx smui-theme template src/theme
+      - name: Install dependecies
+        run: npm install
+      - name: Run tests
+        id: run-tests
+        run: npm test
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        with:
+          projectBaseDir: frontend-svelte
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
