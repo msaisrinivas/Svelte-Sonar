@@ -21,7 +21,7 @@ jobs:
         with:
           node-version: "16.14.0"
       - name: Intializing Theme File
-      	run: npx smui-theme template src/theme
+        run: npx smui-theme template src/theme
       - name: Install dependecies
         run: npm install
       - name: Run tests
