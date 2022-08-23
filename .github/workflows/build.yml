@@ -21,12 +21,12 @@ jobs:
         with:
           node-version: "16.14.0"
       - name: Intializing Theme File
-      	run: npx smui-theme template src/theme
+        run: npx smui-theme template src/theme
       - name: Install dependecies
         run: npm install
       - name: Run tests
         id: run-tests
-        run: npm test
+        run: npm test -- --coverage
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
         with:
@@ -34,3 +34,4 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
